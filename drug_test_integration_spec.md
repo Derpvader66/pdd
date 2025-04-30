@@ -1,4 +1,4 @@
-# Business Problem
+# Business Problems
 
 Users of the Drug Test Integration page experience usability and data access challenges that impede their ability to efficiently search, filter, and interpret drug test records. These challenges include:
 
