@@ -26,7 +26,7 @@ The enhancements address these issues by:
     When I expand the County dropdown
     Then the County dropdown options are: <expected options>
 
-    Examples:
+    **Examples:**
       | locations         | expected options   | verification context           |
       | Maricopa          | Maricopa           | Single county assigned         |
       | Maricopa, Pima    | Maricopa, Pima     | Multiple counties assigned     |
@@ -34,7 +34,7 @@ The enhancements address these issues by:
 
 ## Feature: Reference Number Record Type Functionality
 
-  Background:
+  **Background:**
     Given I am logged in
     And I navigate to the Drug Test Integration page
 
