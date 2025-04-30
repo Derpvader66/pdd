@@ -1,22 +1,25 @@
-name: Convert MD to Word
+name: Convert MD to Word and Publish to GitHub Pages
 
 on:
   push:
     paths:
       - '**.md'
 
+permissions:
+  contents: write  # 🔐 Required for pushing changes back to the repo
+
 jobs:
   convert:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Install Pandoc
         run: sudo apt-get install pandoc -y
 
-      - name: Convert all Markdown files to Word
+      - name: Create docs/ folder and convert Markdown to Word
         run: |
           mkdir -p docs
           find . -name '*.md' -not -path './docs/*' | while read file; do
@@ -24,15 +27,26 @@ jobs:
             pandoc "$file" -o "docs/${filename%.md}.docx"
           done
 
+      - name: Remove orphaned DOCX files
+        run: |
+          for docx in docs/*.docx; do
+            md_file="${docx#docs/}"
+            md_file="${md_file%.docx}.md"
+            if ! find . -name "$md_file" | grep -q .; then
+              echo "Removing orphaned $docx"
+              rm "$docx"
+            fi
+          done
+
       - name: Commit and push generated Word files
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/*.docx
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-generate Word docs"
+            git commit -m "Auto-generate Word docs from Markdown"
             git push
           fi
         env:
