@@ -26,7 +26,7 @@ The enhancements address these issues by:
     When I expand the County dropdown
     Then the County dropdown options are: <expected options>
 
-    **Examples:**
+    Examples:
       | locations         | expected options   | verification context           |
       | Maricopa          | Maricopa           | Single county assigned         |
       | Maricopa, Pima    | Maricopa, Pima     | Multiple counties assigned     |
@@ -38,13 +38,13 @@ The enhancements address these issues by:
     Given I am logged in
     And I navigate to the Drug Test Integration page
 
-  Scenario: Record Type dropdown includes only expected options
+  ***Scenario: Record Type dropdown includes only expected options***
     When I expand the Record Type dropdown
     Then the Record Type options include:
       | Reference Number |
     And no unexpected options are present
 
-  Scenario: Selecting Reference Number disables only the expected search fields
+  ***Scenario: Selecting Reference Number disables only the expected search fields***
     When I select 'Reference Number' from the Record Type dropdown
     Then the following fields are disabled:
       | Timeframe        |
@@ -54,14 +54,14 @@ The enhancements address these issues by:
       | Notification Type |
     And no other search fields are disabled
 
-  Scenario: Searching by valid Reference Number returns the record
+  ***Scenario: Searching by valid Reference Number returns the record***
     Given I am logged in with county: Maricopa
     And I select 'Reference Number' from the Record Type dropdown
     And I enter a valid reference number associated with Maricopa
     When I click Search
     Then the matching record is returned
 
-  Scenario: Searching by Reference Number for a record outside the user's assigned county returns no results
+  ***Scenario: Searching by Reference Number for a record outside the user's assigned county returns no results***
     Given I am logged in with county: Maricopa
     And I select 'Reference Number' from the Record Type dropdown
     And I enter a valid reference number associated with Pima
