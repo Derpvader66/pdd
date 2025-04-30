@@ -17,7 +17,7 @@ The enhancements address these issues by:
 
 ## Feature: County Dropdown Access Control
 
-  ### Background:###
+  ### Background:
    **Given**
      I am logged in
      ***And*** I navigate to the Drug Test Integration page
