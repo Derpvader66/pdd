@@ -1,4 +1,4 @@
-name: Sync Markdown to Word and Publish via GitHub Pages
+name: Convert MD to Word
 
 on:
   push:
@@ -6,46 +6,33 @@ on:
       - '**.md'
 
 jobs:
-  build-and-publish:
+  convert:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Set up Git
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Install Pandoc
         run: sudo apt-get install pandoc -y
 
-      - name: Create docs/ folder and convert Markdown to Word
+      - name: Convert all Markdown files to Word
         run: |
           mkdir -p docs
-          for file in *.md; do
-            pandoc "$file" -o "docs/${file%.md}.docx"
+          find . -name '*.md' -not -path './docs/*' | while read file; do
+            filename=$(basename "$file")
+            pandoc "$file" -o "docs/${filename%.md}.docx"
           done
 
-      - name: Remove orphaned DOCX files
+      - name: Commit and push generated Word files
         run: |
-          for docx in docs/*.docx; do
-            md_file="${docx#docs/}"
-            md_file="${md_file%.docx}.md"
-            if [ ! -f "$md_file" ]; then
-              echo "Removing orphaned $docx"
-              rm "$docx"
-            fi
-          done
-
-      - name: Commit and push updates to docs/
-        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add docs/*.docx
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update Word documents for GitHub Pages"
+            git commit -m "Auto-generate Word docs"
             git push
           fi
         env:
