@@ -32,7 +32,7 @@ The enhancements address these issues by:
       | Maricopa, Pima    | Maricopa, Pima     | Multiple counties assigned     |
       | (none)            | (none)             | No county assigned to user     |
 
-Feature: Reference Number Record Type Functionality
+## Feature: Reference Number Record Type Functionality
 
   Background:
     Given I am logged in
@@ -68,13 +68,13 @@ Feature: Reference Number Record Type Functionality
     When I click Search
     Then no record is returned
 
-Feature: Received Date Display in Search Results
+## Feature: Received Date Display in Search Results
 
-  Background:
+  **Background:**
     Given I am logged in
     And I navigate to the Drug Test Integration page
 
-  Scenario Outline: Results show Received Date with proper format and placement
+  ***Scenario Outline: Results show Received Date with proper format and placement***
     Given I select record type: <record type>
     And I enter search criteria that returns results
     When I click Search
