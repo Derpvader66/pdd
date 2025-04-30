@@ -17,14 +17,15 @@ The enhancements address these issues by:
 
 ## Feature: County Dropdown Access Control
 
-  **Background:**
-    Given I am logged in
-    And I navigate to the Drug Test Integration page
+  ### Background:###
+   **Given**
+     I am logged in
+     ***And*** I navigate to the Drug Test Integration page
 
   **Scenario Outline: User sees only their assigned counties in the County dropdown**
-    Given my Personnel page shows current locations: <locations>
-    When I expand the County dropdown
-    Then the County dropdown options are: <expected options>
+    ***Given*** my Personnel page shows current locations: <locations>
+    ***When*** I expand the County dropdown
+    ***Then*** the County dropdown options are: <expected options>
 
     Examples:
       | locations         | expected options   | verification context           |
